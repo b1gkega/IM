@@ -1,0 +1,51 @@
+# номер 1
+import csv
+"""Импорт библиотек
+"""
+w = open("game_new.txt", 'w', encoding="utf8")
+"""Создание рабочего файла для записи ответа
+"""
+with open('game.csv', encoding='utf8') as file:
+    reader = csv.reader(file, delimiter=',')
+    spisk = list(reader)[1:]
+"""Чтение файла и запись данных в список
+"""
+for GameName,characters,nameError,date in spisk:
+    if 'Avery' in characters:
+        w.write(f"У персонажа {characters} в игре {GameName} нашлась ошибка с кодом: {nameError}. Дата фиксации: {date}.\n")
+"""Поиск в файле необходимого имени, запись информации о нем в рабочий файл
+"""
+w.close()
+
+# --------------------
+
+# номер 2
+import operator
+import csv
+"""Импорт библиотек
+"""
+with open('game.csv', encoding='utf8') as file:
+    reader = csv.reader(file, delimiter=",")
+    data = sorted(reader, key=operator.itemgetter(1))[:-1]
+"""Открытие файла и сохранение сортированных данных по имени в новый список
+"""
+answers = {}
+"""Словарь для сохранения имен и количество их багов в файле 
+"""
+names = []
+"""Список уникальных имен
+"""
+for string in data:
+    if string[1] in answers:
+        answers[string[1]] += 1
+    else:
+        names.append(string[1])
+        answers[string[1]] = 1
+"""Прохождение по отсортированному списку и сохранение в словаре количества багов за каждым из персонажей
+"""
+w = open("results.txt", 'w', encoding="utf8")
+"""Создание рабочего файла для записи ответа
+"""
+for number in range(len(answers)):
+    w.write(f"{names[number]} - количество багов: {answers[names[number]]}")
+w.close()
